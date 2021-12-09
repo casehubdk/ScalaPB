@@ -36,8 +36,8 @@ scala_library(
     name = "compiler_plugin",
     srcs = glob([
       "compiler-plugin/src/main/**/*.scala",
-      "compiler-plugin/target/jvm-2.13/src_managed/main/**/*.scala",
-      "compiler-plugin/target/jvm-2.13/src_managed/main/**/*.java"
+      "compiler-plugin/generated/**/*.scala",
+      "compiler-plugin/target/**/*.java"
     ]),
     visibility = ["//visibility:public"],
     deps = [
