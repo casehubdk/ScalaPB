@@ -41,3 +41,5 @@ resolvers += Resolver.url(
   "typesafe sbt-plugins",
   url("https://dl.bintray.com/typesafe/sbt-plugins")
 )(Resolver.ivyStylePatterns)
+
+addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "1.4.11")

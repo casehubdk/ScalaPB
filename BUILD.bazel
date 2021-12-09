@@ -1,30 +1,70 @@
 load("@io_bazel_rules_scala//scala:scala.bzl", "scala_library")
 
 scala_library(
+    name = "lenses",
+    srcs = glob([
+        "lenses/src/main/scala/**/*.scala",
+        "lenses/src/main/scala-2.13/**/*.scala",
+    ]),
+    visibility = ["//visibility:public"],
+    deps = ["@maven//:org_scala_lang_scala_library"],
+)
+
+scala_library(
+    name = "runtime",
+    srcs = glob([
+        "scalapb-runtime/src/main/scala/**/*.scala",
+        "scalapb-runtime/src/main/scala-2.13/**/*.scala",
+        "scalapb-runtime/src/main/jvm-native/**/*.scala",
+        "scalapb-runtime/src/main/scalajvm/**/*.scala",
+    ]),
+    visibility = ["//visibility:public"],
+    unused_dependency_checker_ignored_targets = ["@maven//:org_scala_lang_modules_scala_collection_compat_2_13"],
+    deps = [
+        ":lenses",
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_modules_scala_collection_compat_2_13",
+        # "@maven//:com_thesamet_scalapb_compilerplugin_2_13",
+        # "@maven//:org_scala_lang_modules_scala_collection_compat_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
+        "@maven//:com_google_protobuf_protobuf_java",
+    ],
+)
+
+scala_library(
     name = "compiler_plugin",
-    srcs = glob(["compiler_plugin/**/*.scala"]),
+    srcs = glob([
+      "compiler-plugin/src/main/**/*.scala",
+      "compiler-plugin/target/jvm-2.13/src_managed/main/**/*.scala",
+      "compiler-plugin/target/jvm-2.13/src_managed/main/**/*.java"
+    ]),
     visibility = ["//visibility:public"],
     deps = [
-      "@maven//:org_scala_lang_scala_library",
-      # "@maven//:com_thesamet_scalapb_compilerplugin_2_13",
-      # "@maven//:org_scala_lang_modules_scala_collection_compat_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
-      "@maven//:com_google_protobuf_protobuf_java",
+        ":runtime",
+        "@maven//:org_scala_lang_scala_library",
+        # "@maven//:com_thesamet_scalapb_compilerplugin_2_13",
+        # "@maven//:org_scala_lang_modules_scala_collection_compat_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
+        "@maven//:com_google_protobuf_protobuf_java",
 
-      # "@maven//:org_typelevel_protoc_gen_fs2_grpc",
-      # "@maven//:org_typelevel_fs2_grpc_runtime_2_13",
-      "@maven//:io_grpc_grpc_api",
-      "@maven//:io_grpc_grpc_context",
-      "@maven//:com_google_api_grpc_proto_google_iam_v1",
-      "@maven//:com_google_api_grpc_proto_google_common_protos",
+        # "@maven//:org_typelevel_protoc_gen_fs2_grpc",
+        # "@maven//:org_typelevel_fs2_grpc_runtime_2_13",
+        "@maven//:io_grpc_grpc_api",
+        "@maven//:io_grpc_grpc_context",
+        "@maven//:com_google_api_grpc_proto_google_common_protos",
 
-      # "@maven//:com_thesamet_scalapb_scalapb_runtime_2_13",
-      # "@maven//:com_thesamet_scalapb_compilerplugin_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
-      # "@maven//:com_thesamet_scalapb_lenses_2_13",
-      # "@maven//:com_thesamet_scalapb_protoc_bridge_2_12",
+        # "@maven//:com_thesamet_scalapb_scalapb_runtime_2_13",
+        # "@maven//:com_thesamet_scalapb_compilerplugin_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
+        # "@maven//:com_thesamet_scalapb_lenses_2_13",
+        # "@maven//:com_thesamet_scalapb_protoc_bridge_2_12",
+        "@maven//:com_thesamet_scalapb_protoc_gen_2_13",
+        "@maven//:com_thesamet_scalapb_protoc_cache_coursier_2_13",
+        "@maven//:com_thesamet_scalapb_protoc_bridge_2_13",
+        "@maven//:com_thesamet_scalapb_protobuf_runtime_scala_2_13",
     ],
 )
